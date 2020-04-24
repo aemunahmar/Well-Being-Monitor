@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Patient</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/services.css">
+<link rel="stylesheet" type="text/css" href="styles/services_responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/util.css">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+</head>
+    
+<body>
+<?php session_start(); ?>
+    
+<div class="super_container">
+	<!-- Home -->
+	<div class="home">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/contact.jpg" data-speed="0.8"></div>
+        
+		<!-- Header -->
+		<header class="header" id="header">
+			<div>
+				<div class="header_top">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<div class="header_top_content d-flex flex-row align-items-center justify-content-start">
+									<div class="logo">
+										<a href="index.html">health<span>+</span></a>	
+									</div>
+									<div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
+										<div class="header_top_nav">
+											<ul class="d-flex flex-row align-items-center justify-content-start">
+												<?php
+                                                    if (isset($_SESSION['doctorid']))
+                                                    {
+                                                        echo '<li><a href=doctoraccount.html style=text-decoration:none;>Welcome Dr. ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['email']) || isset($_SESSION['name']))
+                                                    {
+                                                        echo '<li><a href=myaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['pharmacistid']))
+                                                    {
+                                                        echo '<li><a href=pharmacyaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else
+                                                    {
+                                                        echo '<li><a href="register.html">Register</a></li>';
+                                                        echo '<li><a href="patient.html">Sign In </a></li>';
+                                                    }
+                                                ?>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+				<div class="header_nav" id="header_nav_pin">
+					<div class="header_nav_inner">
+						<div class="header_nav_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
+											<nav class="main_nav">
+												<ul class="d-flex flex-row align-items-center justify-content-start">
+													<li class="active"><a href="index.html">Home</a></li>
+													<li><a href="patient.html">Patient</a></li>
+													<li><a href="doctor.html">Doctor</a></li>
+													<li><a href="pharmacy.html">Pharmacy</a></li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</header>
+
+		<div class="home_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content">
+							<div class="home_title">Patient</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Services -->
+	<div class="services">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title">Patient Services</div>
+					<div class="section_subtitle">As a patient you can...</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+
+	<!-- Boxes -->
+	<div class="boxes d-flex flex-lg-row flex-column align-items-start justify-content-start">
+		<!-- Box -->
+		<div class="box">
+			<div class="background_image" style="background-image:url(images/box_1.jpg)"></div>
+			<div class="box_title">Request Access</div>
+			<div class="box_subtitle">Only once</div>
+			<div class="box_text">After registering, request to view your record from your doctor. Request the first time, then never again.</div>
+		</div>
+
+		<!-- Box -->
+		<div class="box">
+			<div class="background_image" style="background-image:url(images/box_2.jpg)"></div>
+			<div class="box_title">View Record</div>
+			<div class="box_subtitle">take a look</div>
+			<div class="box_text">Once your doctor grants access, you can view all of your information conveniently organized for better viewing.</div>
+		</div>
+
+		<!-- Box -->
+		<div class="box">
+			<div class="background_image" style="background-image:url(images/box_3.jpg)"></div>
+			<div class="box_title">View Prescriptions</div>
+			<div class="box_subtitle">All at once</div>
+			<div class="box_text">See all of your prescriptions in one area. all prescriptions will be shown in order of date prescribed.</div>		
+		</div>
+	</div>
+    
+    <!-- Patient Sign In -->
+    <?php 
+        if(!(isset($_SESSION['email'])) && !(isset($_SESSION['name'])) && !(isset($_SESSION['doctorid'])  && !(isset($_SESSION['pharmacistid']))))
+        {
+    ?>
+    <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+				<form class="login100-form validate-form" method = "POST" action = "patientsignin.php">
+					<span class="login100-form-title p-b-33">
+						Patient Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="email" placeholder="Email" id="email" required>
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>  
+					</div>
+
+					<div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="password" placeholder="Password" id="password" required>
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<div class="container-login100-form-btn m-t-20">
+						<button class="login100-form-btn">
+							Sign in
+						</button>
+					</div>
+
+					<div class="text-center">
+						<span class="txt1">
+							Create an account?
+						</span>
+						<a href="register.html" class="txt2 hov1">
+							Sign up
+						</a>
+					</div>
+                    
+                    <div class="text-center">
+						<span class="txt1">
+							Actually a doctor?
+						</span>
+						<a href="doctor.html" class="txt2 hov1">
+							Login
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    <?php } ?>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/footer.jpg" data-speed="0.8"></div>
+		<div class="footer_content">
+			<div class="container">
+				<div class="row">
+					<!-- Footer About -->
+                    <div class="footer_about">
+                        <div class="logo">
+                            <a href="index.html">health<span>+</span></a>	
+                        </div>
+                        <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+        
+		<div class="footer_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="footer_bar_content d-flex flex-sm-row flex-column align-items-lg-center align-items-start justify-content-start">
+							<nav class="footer_nav">
+								<ul class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+                                    <li class="menu_item"><a href="index.html">Home</a></li>
+                                    <li class="menu_item"><a href="patient.html">Patient</a></li>
+                                    <li class="menu_item"><a href="doctor.html">Doctor</a></li>
+                                    <li class="menu_item"><a href="pharmacy.html">Pharmacy</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+</body>
+</html>

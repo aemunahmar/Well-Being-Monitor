@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>View Precription</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/contact.css">
+<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/util.css">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/util.css">
+<link rel="stylesheet" type="text/css" href="css/table.css">
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+</head>
+    
+<body>
+<?php
+    session_start();
+
+    include('dbconnect.php');
+
+    if (isset($_SESSION['email']))
+    {
+        $email = $_SESSION['email'];
+        $fname = $_SESSION['fname'];
+        $patientid = $_SESSION['patientid'];
+    }
+
+    if (isset($_SESSION['name']))
+    {
+        $email = $_SESSION['name'];
+        $patientid = $_SESSION['patientid'];
+    }
+
+    $query = "SELECT * FROM approve WHERE patientid = '$patientid'";
+    $output = $dbconnect->query($query);
+?>
+    
+<div class="super_container">
+	<!-- Home -->
+	<div class="home">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/contact.jpg" data-speed="0.8"></div>
+        
+		<!-- Header -->
+		<header class="header" id="header">
+			<div>
+				<div class="header_top">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<div class="header_top_content d-flex flex-row align-items-center justify-content-start">
+									<div class="logo">
+										<a href="index.html">health<span>+</span></a>	
+									</div>
+									<div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
+										<div class="header_top_nav">
+											<ul class="d-flex flex-row align-items-center justify-content-start">
+												<?php
+                                                    if (isset($_SESSION['doctorid']))
+                                                    {
+                                                        echo '<li><a href=doctoraccount.html style=text-decoration:none;>Welcome Dr. ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['email']) || isset($_SESSION['name']))
+                                                    {
+                                                        echo '<li><a href=myaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['pharmacistid']))
+                                                    {
+                                                        echo '<li><a href=pharmacyaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else
+                                                    {
+                                                        echo '<li><a href="register.html">Register</a></li>';
+                                                        echo '<li><a href="patient.html">Sign In </a></li>';
+                                                    }
+                                                ?>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+				<div class="header_nav" id="header_nav_pin">
+					<div class="header_nav_inner">
+						<div class="header_nav_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
+											<nav class="main_nav">
+												<ul class="d-flex flex-row align-items-center justify-content-start">
+													<li class="active"><a href="index.html">Home</a></li>
+													<li><a href="patient.html">Patient</a></li>
+													<li><a href="doctor.html">Doctor</a></li>
+													<li><a href="pharmacy.html">Pharmacy</a></li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</header>
+
+		<div class="home_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content">
+							<div class="home_title">My Account</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- View Prescription -->
+	<div class="contact">
+		<div class="container">
+            <div class="col text-center">
+				<div class="section_title">Your Prescription</div>
+            </div>
+		</div>
+    </div>
+    
+    <?php if($output->num_rows != 0){ ?>
+    <div class="limiter" style="width: 100%">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                <form class="login100-form validate-form">
+                    <?php while($result = mysqli_fetch_assoc($output)) { ?>
+
+                    <span class="login100-form-title p-b-33" style="text-decoration:underline">Prescription Details</span>
+
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;"> Patient ID: <?php echo $result['patientid']?></div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;"> Doctor ID: <?php echo $result['doctorid']?> </div> 
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;"> Pharmacist ID: <?php echo $result['pharmacistid']?> </div> 
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Last Name: <?php echo $result['lname']?> </div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">First Name: <?php echo $result['fname']?> </div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Date Prescribed: <?php echo $result['date']?> </div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Medicine: <?php echo $result['medicine']?></div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Reason: <?php echo $result['cause']?></div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Strength: <?php echo $result['strength']?></div>
+                    <span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Dosage: <?php echo $result['dosage']?> time</div>
+					<span class="login100-form-title p-b-33"> </span>
+                    <div class="wrap-input100" style="text-align:center;font-family:Montserrat;font-size:18px;font-weight:500;">Notes: <?php echo $result['notes']?></div>
+					
+					<br>
+                <?php } ?>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php } else { echo '<span class=login100-form-title p-b-33>No Prescriptions Yet</span><br><br>'; } ?>
+    
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/footer.jpg" data-speed="0.8"></div>
+		<div class="footer_content">
+			<div class="container">
+				<div class="row">
+					<!-- Footer About -->
+                    <div class="footer_about">
+                        <div class="logo">
+                            <a href="index.html">health<span>+</span></a>	
+                        </div>
+                        <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                    </div>	
+				</div>
+			</div>
+		</div>
+        
+		<div class="footer_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="footer_bar_content d-flex flex-sm-row flex-column align-items-lg-center align-items-start justify-content-start">
+							<nav class="footer_nav">
+								<ul class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+								    <li class="menu_item"><a href="index.html">Home</a></li>
+                                    <li class="menu_item"><a href="patient.html">Patient</a></li>
+                                    <li class="menu_item"><a href="doctor.html">Doctor</a></li>
+                                    <li class="menu_item"><a href="pharmacy.html">Pharmacy</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+</body>
+</html>

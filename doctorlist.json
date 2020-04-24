@@ -1,0 +1,23 @@
+[
+    {
+        "doctorid": "945435",
+        "doctorcode": "200000",
+        "fname": "Mike",
+        "lname": "Smith",
+        "password": "helloworld"
+    },
+    {
+        "doctorid": "123456",
+        "doctorcode": "654321",
+        "fname": "Gabby",
+        "lname": "Arnold",
+        "password": "helloworld"
+    },
+    {
+        "doctorid": "246801",
+        "doctorcode": "135792",
+        "fname": "Leana",
+        "lname": "Kim",
+        "password": "helloworld"
+    }
+]

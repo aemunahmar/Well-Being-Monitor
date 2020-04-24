@@ -1,0 +1,14 @@
+[
+    {
+        "pharmacistid": "500234",
+        "fname": "Jessica",
+        "lname": "Walsh",
+        "password": "helloworld"
+    },
+    {
+        "pharmacistid": "123456",
+        "fname": "Patricia",
+        "lname": "Donald",
+        "password": "helloworld"
+    }
+]

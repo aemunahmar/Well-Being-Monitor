@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Grant Access</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/contact.css">
+<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+<link rel="stylesheet" type="text/css" href="styles/util.css">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/util.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+</head>
+    
+<body>
+<?php session_start();?>
+    
+<div class="super_container">
+	<!-- Home -->
+	<div class="home">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/contact.jpg" data-speed="0.8"></div>
+        
+		<!-- Header -->
+		<header class="header" id="header">
+			<div>
+				<div class="header_top">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<div class="header_top_content d-flex flex-row align-items-center justify-content-start">
+									<div class="logo">
+										<a href="index.html">health<span>+</span></a>	
+									</div>
+									<div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
+										<div class="header_top_nav">
+											<ul class="d-flex flex-row align-items-center justify-content-start">
+												<?php
+                                                    if (isset($_SESSION['doctorid']))
+                                                    {
+                                                        echo '<li><a href=doctoraccount.html style=text-decoration:none;>Welcome Dr. ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['email']) || isset($_SESSION['name']))
+                                                    {
+                                                        echo '<li><a href=myaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else if(isset($_SESSION['pharmacistid']))
+                                                    {
+                                                        echo '<li><a href=pharmacyaccount.html style=text-decoration:none;>Welcome ' . $_SESSION['fname'] . '</a></li>';
+												        echo '<li><a href="logout.php">Log Out</a></li>';
+                                                    } else
+                                                    {
+                                                        echo '<li><a href="register.html">Register</a></li>';
+                                                        echo '<li><a href="patient.html">Sign In </a></li>';
+                                                    }
+                                                ?>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+				<div class="header_nav" id="header_nav_pin">
+					<div class="header_nav_inner">
+						<div class="header_nav_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
+											<nav class="main_nav">
+												<ul class="d-flex flex-row align-items-center justify-content-start">
+													<li class="active"><a href="index.html">Home</a></li>
+													<li><a href="patient.html">Patient</a></li>
+													<li><a href="doctor.html">Doctor</a></li>
+													<li><a href="pharmacy.html">Pharmacy</a></li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</header>
+
+		<div class="home_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content">
+                            <a><div class="home_title">Grant Access</div></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Choose -->
+	<div class="contact">
+		<div class="container">
+            <div class="col text-center">
+				<div class="section_title">Choose what to do...</div>
+                <button class="contact_button" onclick="window.location.href='add_patients.html'">Add New Patient</button>
+                <button class="contact_button" onclick="window.location.href='view_patients.html'">View Patient Record</button>
+                <button class="contact_button" onclick="window.location.href='display_patients.html'">Write Prescription</button>
+            </div>
+		</div>
+	</div>
+    
+    <!-- Grant Access -->
+    <div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+                                    <th class="cell100 column1">Patient Id</th>
+                                    <th class="cell100 column2">Last Name</th>
+                                    <th class="cell100 column2">First Name</th>
+                                    <th class="cell100 column3">Grant</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                                <?php
+                                    include('dbconnect.php');
+
+                                    $query = "SELECT * FROM access WHERE granted = false";
+                                    $output = $dbconnect->query($query);
+
+                                    if($output->num_rows != 0){
+                                        while($result = mysqli_fetch_assoc($output)) {
+                                        ?>
+                                            <tr class="row100 body">
+                                                <td class="cell100 column1"><?php echo $result['patientid']?></td>
+                                                <td class="cell100 column2"><?php echo $result['lname']?></td>
+                                                <td class="cell100 column2"><?php echo $result['fname']?></td>
+                                                <td class="cell100 column3"><?php echo "<a href = 'grant.php?PID=$result[patientid]'>Grant</a>"?></td>
+                                            </tr>
+                                <?php } } else{ echo '<span class=login100-form-title p-b-33>No Patients</span>';} ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/footer.jpg" data-speed="0.8"></div>
+		<div class="footer_content">
+			<div class="container">
+				<div class="row">
+					<!-- Footer About -->
+                    <div class="footer_about">
+                        <div class="logo">
+                            <a href="index.html">health<span>+</span></a>	
+                        </div>
+                        <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                    </div>	
+				</div>
+			</div>
+		</div>
+        
+		<div class="footer_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="footer_bar_content d-flex flex-sm-row flex-column align-items-lg-center align-items-start justify-content-start">
+							<nav class="footer_nav">
+								<ul class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+								    <li class="menu_item"><a href="index.html">Home</a></li>
+                                    <li class="menu_item"><a href="patient.html">Patient</a></li>
+                                    <li class="menu_item"><a href="doctor.html">Doctor</a></li>
+                                    <li class="menu_item"><a href="pharmacy.html">Pharmacy</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+</body>
+</html>
