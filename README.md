@@ -1,4 +1,4 @@
-# health
+# Well-Being-Monitor
 
 The main goal of the project is to develop a website application that will solve a defined
 problem in the medical field. The intended outcome is to allow patients, doctors, and
